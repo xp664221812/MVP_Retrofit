@@ -1,8 +1,8 @@
-package com.xp.mvp_retrofit.mvp;
+package com.xp.mvp_retrofit.base;
 
 public abstract class BasePresenter<V extends IView> implements IPresenter<V> {
 
-    private V rootView;
+    protected V rootView;
 
     public BasePresenter() {
         onStart();

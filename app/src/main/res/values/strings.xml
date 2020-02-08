@@ -1,3 +1,36 @@
 <resources>
     <string name="app_name">MVP_Retrofit</string>
+
+
+
+    <!-- 通用 -->
+    <string name="global_action_add">添加</string>
+    <string name="global_action_check">查看</string>
+    <string name="global_action_edit">编辑</string>
+    <string name="global_action_del">删除</string>
+    <string name="global_action_update">更新</string>
+    <string name="global_action_help">帮助</string>
+    <string name="global_action_sort">排序</string>
+    <string name="global_action_confirm">确定</string>
+    <string name="global_action_cancel">取消</string>
+    <string name="global_action_save">保存</string>
+    <string name="global_action_sync">同步</string>
+    <string name="global_action_back">返回</string>
+    <string name="global_action_about">关于</string>
+    <string name="global_action_tip">提示</string>
+    <string name="global_action_agree">同意</string>
+    <string name="global_action_deny">拒绝</string>
+    <string name="global_action_send">发送</string>
+    <string name="global_action_retry">重试</string>
+    <string name="global_action_submit">提交</string>
+    <string name="global_action_finish">完成</string>
+    <string name="global_action_choose">选择</string>
+    <string name="global_action_ignore">忽略</string>
+
+    <string name="nav_item_points">我的积分</string>
+    <string name="nav_item_collect">我的收藏</string>
+    <string name="nav_item_share">我的分享</string>
+    <string name="nav_item_todo">TODO</string>
+    <string name="nav_item_night_mode">夜间模式</string>
+    <string name="nav_item_setting">系统设置</string>
 </resources>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/point"
+        android:icon="@mipmap/ic_point"
+        android:title="@string/nav_item_points" />
+    <item
+        android:id="@+id/collect"
+        android:icon="@mipmap/ic_collect"
+        android:title="@string/nav_item_collect" />
+    <item
+        android:id="@+id/share"
+        android:icon="@mipmap/ic_share"
+        android:title="@string/nav_item_share" />
+    <item
+        android:id="@+id/todo"
+        android:icon="@mipmap/ic_todo"
+        android:title="@string/nav_item_todo" />
+    <item
+        android:id="@+id/night"
+        android:icon="@mipmap/ic_night"
+        android:title="@string/nav_item_night_mode" />
+    <item
+        android:id="@+id/setting"
+        android:icon="@mipmap/ic_setting"
+        android:title="@string/nav_item_setting" />
+</menu>

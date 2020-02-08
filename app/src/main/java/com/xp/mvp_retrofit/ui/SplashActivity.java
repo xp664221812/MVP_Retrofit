@@ -26,7 +26,7 @@ public class SplashActivity extends BaseActivity {
     protected void initData(Bundle savedInstanceState) {
 
         new Handler().postDelayed(() -> {
-            ActivityUtils.startActivity(new Intent(SplashActivity.this, MainActivity.class));
+            ActivityUtils.startActivity(new Intent(SplashActivity.this, RegisterActivity.class));
             finish();
         }, 2000);
     }

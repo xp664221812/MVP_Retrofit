@@ -16,9 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup,android:name">
-        <activity android:name=".MainActivity">
-
-        </activity>
+        <activity android:name=".MainActivity"/>
+        <activity android:name=".ui.RegisterActivity"/>
         <activity
             android:name=".ui.SplashActivity"
             android:theme="@style/StartPageStyle">

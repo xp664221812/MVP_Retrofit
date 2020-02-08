@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_back"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:orientation="horizontal"
+    android:paddingLeft="3dip"
+    android:paddingRight="8dip"
+    android:visibility="visible">
+
+    <TextView
+        android:id="@+id/tv_back_icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center_vertical"
+        android:background="@mipmap/ic_back_white_32" />
+
+    <TextView
+        android:id="@+id/tv_back_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="-5dp"
+        android:text="@string/global_action_back"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:visibility="visible" />
+</LinearLayout>

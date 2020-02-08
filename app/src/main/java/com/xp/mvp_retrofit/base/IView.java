@@ -1,4 +1,4 @@
-package com.xp.mvp_retrofit.mvp;
+package com.xp.mvp_retrofit.base;
 
 public interface IView {
     //显示加载

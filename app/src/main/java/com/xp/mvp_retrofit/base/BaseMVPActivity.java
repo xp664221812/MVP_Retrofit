@@ -8,15 +8,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.xp.mvp_retrofit.R;
-import com.xp.mvp_retrofit.mvp.IPresenter;
-import com.xp.mvp_retrofit.mvp.IView;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public abstract class BaseMVPActivity<P extends IPresenter> extends AppCompatActivity implements IView {
 
     private Toolbar mToolbar;
-    private P mPresenter;
+    public P mPresenter;
+    private Unbinder mUnbinder;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public abstract class BaseMVPActivity<P extends IPresenter> extends AppCompatAct
         }
 
         initFromIntent(getIntent());
-        ButterKnife.bind(this);
+        mUnbinder = ButterKnife.bind(this);
         mToolbar = findViewById(R.id.toolbar);
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
@@ -41,6 +41,9 @@ public abstract class BaseMVPActivity<P extends IPresenter> extends AppCompatAct
 
     @Override
     protected void onDestroy() {
+        if(mUnbinder!=null){
+            mUnbinder.unbind();
+        }
         if (mPresenter != null) {
             mPresenter.onDestroy();
         }

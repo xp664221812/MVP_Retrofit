@@ -12,9 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.xp.mvp_retrofit.mvp.IPresenter;
-import com.xp.mvp_retrofit.mvp.IView;
-
 import butterknife.ButterKnife;
 
 public abstract class BaseMVPFragment<P extends IPresenter> extends Fragment implements IView {

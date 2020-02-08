@@ -7,6 +7,8 @@ import android.net.wifi.aware.PublishConfig;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.Utils;
 
+import butterknife.ButterKnife;
+
 public class App extends Application {
 
     private static App application;
@@ -23,5 +25,6 @@ public class App extends Application {
 
         Utils.init(this);
         LogUtils.getConfig().setGlobalTag("clear:");
+
     }
 }

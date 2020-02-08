@@ -7,14 +7,14 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AppClient {
 
     private static OkHttpClient mOkHttpClient;
     private static Retrofit mRetrofit;
-    private static String API_URL = "https://api.github.com";
+    private static String API_URL = "https://www.wanandroid.com";
 
     private static void initOkHttpClient() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
@@ -33,7 +33,7 @@ public class AppClient {
             initOkHttpClient();
             mRetrofit = new Retrofit.Builder().baseUrl(API_URL).client(mOkHttpClient)
                     .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build();
         }
         return mRetrofit;
