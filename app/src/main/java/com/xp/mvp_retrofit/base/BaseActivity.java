@@ -23,6 +23,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         mToolbar = findViewById(R.id.toolbar);
         if (mToolbar != null) {
+            mToolbar.setTitle("");
             setSupportActionBar(mToolbar);
         }
 

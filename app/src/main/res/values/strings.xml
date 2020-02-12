@@ -5,6 +5,8 @@
 
     <!-- 通用 -->
     <string name="global_action_add">添加</string>
+    <string name="global_action_open">打开</string>
+    <string name="global_action_close">关闭</string>
     <string name="global_action_check">查看</string>
     <string name="global_action_edit">编辑</string>
     <string name="global_action_del">删除</string>
@@ -33,4 +35,7 @@
     <string name="nav_item_todo">TODO</string>
     <string name="nav_item_night_mode">夜间模式</string>
     <string name="nav_item_setting">系统设置</string>
+
+
+    <string name="home_navigation_bottom">首页</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.xp.mvp_retrofit.ui;
+package com.xp.mvp_retrofit.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,12 +6,11 @@ import android.os.Handler;
 import android.view.Window;
 import android.view.WindowManager;
 
-import androidx.annotation.Nullable;
-
 import com.blankj.utilcode.util.ActivityUtils;
-import com.xp.mvp_retrofit.MainActivity;
 import com.xp.mvp_retrofit.R;
 import com.xp.mvp_retrofit.base.BaseActivity;
+
+import androidx.annotation.Nullable;
 
 public class SplashActivity extends BaseActivity {
     @Override
@@ -26,7 +25,7 @@ public class SplashActivity extends BaseActivity {
     protected void initData(Bundle savedInstanceState) {
 
         new Handler().postDelayed(() -> {
-            ActivityUtils.startActivity(new Intent(SplashActivity.this, RegisterActivity.class));
+            ActivityUtils.startActivity(new Intent(SplashActivity.this, MainActivity.class));
             finish();
         }, 2000);
     }

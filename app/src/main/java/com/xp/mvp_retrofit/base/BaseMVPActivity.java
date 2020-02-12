@@ -2,6 +2,8 @@ package com.xp.mvp_retrofit.base;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,7 +34,14 @@ public abstract class BaseMVPActivity<P extends IPresenter> extends AppCompatAct
         mUnbinder = ButterKnife.bind(this);
         mToolbar = findViewById(R.id.toolbar);
         if (mToolbar != null) {
+            mToolbar.setTitle("");
             setSupportActionBar(mToolbar);
+            LinearLayout back = mToolbar.findViewById(R.id.ll_back);
+
+            if (back != null) {
+                back.setVisibility(View.VISIBLE);
+                back.setOnClickListener(v -> onToolbarBackPressed());
+            }
         }
 
         initData(savedInstanceState);
@@ -41,7 +50,7 @@ public abstract class BaseMVPActivity<P extends IPresenter> extends AppCompatAct
 
     @Override
     protected void onDestroy() {
-        if(mUnbinder!=null){
+        if (mUnbinder != null) {
             mUnbinder.unbind();
         }
         if (mPresenter != null) {
@@ -57,4 +66,9 @@ public abstract class BaseMVPActivity<P extends IPresenter> extends AppCompatAct
     protected abstract void initFromIntent(Intent intent);
 
     protected abstract int initLayout();
+
+    protected void onToolbarBackPressed() {
+
+    }
+
 }

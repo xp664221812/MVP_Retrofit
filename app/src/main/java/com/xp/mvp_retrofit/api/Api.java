@@ -1,5 +1,8 @@
 package com.xp.mvp_retrofit.api;
 
+import com.xp.mvp_retrofit.storage.beans.Banner;
+import com.xp.mvp_retrofit.storage.beans.HttpResult;
+
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -19,8 +22,12 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("/user/register")
-    Observable register(@Field("username")String username,@Field("password")String password
-            ,@Field("repassword")String repassword);
+    Observable<HttpResult> register(@Field("username") String username, @Field("password") String password
+            , @Field("repassword") String repassword);
+
+
+    @GET("/banner/json")
+    Observable<HttpResult<List<Banner>>> requestBanner();
 
 
 }

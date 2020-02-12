@@ -3,14 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    style="@style/MatchMatch"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity">
@@ -25,21 +22,25 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <!--        <androidx.recyclerview.widget.RecyclerView-->
+        <!--            android:id="@+id/rv_list"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            app:layout_behavior="@string/appbar_scrolling_view_behavior" />-->
+
+        <FrameLayout
+            android:id="@+id/container"
+            style="@style/MatchMatch"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
+        <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_gravity="bottom"
-            app:itemBackground="@color/yellow"
-            app:itemIconTint="@color/red"
-            app:itemTextColor="@color/black"
+            android:background="@color/white"
+            app:itemTextColor="@color/selector_navigation_text_color"
             app:layout_behavior="com.xp.mvp_retrofit.widget.BottomNavigationBehavior"
             app:menu="@menu/navigation_main_menu" />
 
@@ -48,8 +49,7 @@
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        style="@style/WrapMatch"
         android:layout_gravity="start"
         android:background="@color/white"
         android:fitsSystemWindows="true"
