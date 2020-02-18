@@ -1,7 +1,11 @@
 package com.xp.mvp_retrofit.api;
 
+import com.xp.mvp_retrofit.storage.beans.Article;
+import com.xp.mvp_retrofit.storage.beans.ArticleResponseBody;
 import com.xp.mvp_retrofit.storage.beans.Banner;
 import com.xp.mvp_retrofit.storage.beans.HttpResult;
+import com.xp.mvp_retrofit.storage.beans.LoginData;
+import com.xp.mvp_retrofit.storage.beans.UserInfoBody;
 
 import java.util.List;
 
@@ -29,5 +33,19 @@ public interface Api {
     @GET("/banner/json")
     Observable<HttpResult<List<Banner>>> requestBanner();
 
+    @GET("/article/top/json")
+    Observable<HttpResult<List<Article>>> requestTopArticles();
 
+    @GET("/article/list/{num}/json")
+    Observable<HttpResult<ArticleResponseBody>> requestArticles(@Path("num") int num);
+
+
+    @FormUrlEncoded
+    @POST("/user/login")
+    Observable<HttpResult<LoginData>> login(@Field("username") String username, @Field("password") String password);
+
+
+
+    @GET("/lg/coin/userinfo/json")
+    Observable<HttpResult<UserInfoBody>> getUserInfo();
 }

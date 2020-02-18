@@ -2,10 +2,10 @@ package com.xp.mvp_retrofit.storage.beans;
 
 import androidx.annotation.NonNull;
 
-public class HttpResult<T> {
+public class HttpResult<T> extends BaseBean{
     public T data;
-    public int errorCode;
-    public String errorMsg;
+//    public int errorCode;
+//    public String errorMsg;
 
 
     @NonNull

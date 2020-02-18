@@ -4,19 +4,34 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
+import com.blankj.utilcode.constant.PermissionConstants;
 import com.blankj.utilcode.util.FragmentUtils;
+import com.blankj.utilcode.util.PermissionUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.SizeUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.google.android.material.navigation.NavigationView;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.xp.mvp_retrofit.R;
 import com.xp.mvp_retrofit.R2;
 import com.xp.mvp_retrofit.base.BaseMVPActivity;
+import com.xp.mvp_retrofit.constant.Constants;
+import com.xp.mvp_retrofit.event.LoginEvent;
 import com.xp.mvp_retrofit.mvp.contract.MainContract;
 import com.xp.mvp_retrofit.mvp.presenter.MainPresenter;
+import com.xp.mvp_retrofit.storage.beans.HttpResult;
+import com.xp.mvp_retrofit.storage.beans.UserInfoBody;
 import com.xp.mvp_retrofit.ui.fragment.HomeFragment;
 
-import androidx.annotation.NonNull;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.List;
+
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -50,6 +65,12 @@ public class MainActivity extends BaseMVPActivity<MainPresenter> implements Main
     @BindView(R2.id.bottom_navigation)
     BottomNavigationViewEx bottomNavigationView;
 
+
+    private View headView;
+    private TextView username;
+    private TextView userInfo;
+
+
     private HomeFragment homeFragment;
 
 
@@ -58,6 +79,8 @@ public class MainActivity extends BaseMVPActivity<MainPresenter> implements Main
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        EventBus.getDefault().register(this);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -70,12 +93,9 @@ public class MainActivity extends BaseMVPActivity<MainPresenter> implements Main
 
 
         drawerLayout.addDrawerListener(toggle);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                drawerLayout.closeDrawer(GravityCompat.START);
-                return true;
-            }
+        navigationView.setNavigationItemSelectedListener(menuItem -> {
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return true;
         });
 
 
@@ -94,9 +114,23 @@ public class MainActivity extends BaseMVPActivity<MainPresenter> implements Main
 
     @Override
     protected void initData(@androidx.annotation.Nullable Bundle savedInstanceState) {
+
+
+        requestPermission();
+
+
         if (savedInstanceState != null) {
             currentIndex = savedInstanceState.getInt(BOTTOM_INDEX);
         }
+
+        headView = navigationView.getHeaderView(0);
+        username = headView.findViewById(R.id.tv_name);
+        userInfo = headView.findViewById(R.id.tv_user_info);
+
+        headView.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        });
+
 
         bottomNavigationView.setSmallTextSize(12);
         bottomNavigationView.setLargeTextSize(12);
@@ -126,6 +160,11 @@ public class MainActivity extends BaseMVPActivity<MainPresenter> implements Main
                 break;
         }
 
+        if (SPUtils.getInstance().getBoolean(Constants.ISLOGIN)) {
+            username.setText(SPUtils.getInstance().getString(Constants.USERNAME));
+        }
+
+
     }
 
     @Override
@@ -138,6 +177,11 @@ public class MainActivity extends BaseMVPActivity<MainPresenter> implements Main
         return R.layout.activity_main;
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mPresenter.getUserInfo();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -158,8 +202,59 @@ public class MainActivity extends BaseMVPActivity<MainPresenter> implements Main
     }
 
     @Override
-    public void handleError(Exception e) {
+    public void showError(String error) {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    private void requestPermission() {
+        PermissionUtils.permission(PermissionConstants.STORAGE).rationale(new PermissionUtils.OnRationaleListener() {
+            @Override
+            public void rationale(ShouldRequest shouldRequest) {
+                shouldRequest.again(true);
+            }
+        }).callback(new PermissionUtils.FullCallback() {
+            @Override
+            public void onGranted(List<String> permissionsGranted) {
+                return;
+            }
+
+            @Override
+            public void onDenied(List<String> permissionsDeniedForever, List<String> permissionsDenied) {
+                if (!permissionsDenied.isEmpty() || !permissionsDeniedForever.isEmpty()) {
+                    finish();
+                }
+            }
+        }).theme(activity -> {
+        }).request();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventLoginResult(LoginEvent event) {
+        if (event.isLogin) {
+            username.setText(SPUtils.getInstance().getString(Constants.USERNAME));
+            showToast("登陆成功了");
+        } else {
+
+
+//            SPUtils.getInstance().clear();
+//            SPUtils.getInstance().put(Constants.ISLOGIN, true);
+//            SPUtils.getInstance().put(Constants.USERNAME, loginData.getUsername());
+//            SPUtils.getInstance().put(Constants.TOKEN, loginData.getToken());
+//            EventBus.getDefault().post(new LoginEvent(true));
+        }
+    }
+
+    @Override
+    public void showUserInfo(HttpResult<UserInfoBody> result) {
+        UserInfoBody bean = result.data;
+        String level = (bean.getCoinCount() / 100 + 1) + "";
+        String msg = String.format(getString(R.string.level_and_rank), level, bean.getRank() + "");
+        userInfo.setText(msg);
+    }
 }

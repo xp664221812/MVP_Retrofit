@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.classic.common.MultipleStatusView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/multiple_status-view"
+    android:id="@+id/multiple_status_view"
     style="@style/MatchMatch"
-    android:background="@color/white">
+    android:background="@color/white"
+    app:emptyView="@layout/empty_view"
+    app:loadingView="@layout/loading_view"
+    app:noNetworkView="@layout/no_network_view">
 
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -13,7 +17,6 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_list"
             style="@style/MatchMatch"
-
             android:scrollbars="vertical" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

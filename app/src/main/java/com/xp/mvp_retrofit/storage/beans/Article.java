@@ -49,7 +49,7 @@ public class Article {
     private String desc;
     private String descMd;
     private String envelopePic;
-    private boolean fresh;
+    private boolean fresh = false;
     private int id;
     private String link;
     private String niceDate;
@@ -69,6 +69,8 @@ public class Article {
     private int visible;
     private int zan;
     private List<Tag> tags;
+    private boolean top;
+
 
     public String getApkLink() {
         return apkLink;
@@ -316,5 +318,13 @@ public class Article {
 
     public void setTags(List<Tag> tags) {
         this.tags = tags;
+    }
+
+    public boolean isTop() {
+        return top;
+    }
+
+    public void setTop(boolean top) {
+        this.top = top;
     }
 }
