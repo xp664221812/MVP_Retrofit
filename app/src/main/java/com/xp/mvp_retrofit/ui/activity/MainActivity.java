@@ -3,6 +3,7 @@ package com.xp.mvp_retrofit.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -12,7 +13,6 @@ import com.blankj.utilcode.util.FragmentUtils;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.SizeUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.google.android.material.navigation.NavigationView;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.xp.mvp_retrofit.R;
@@ -34,7 +34,9 @@ import java.util.List;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
+import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
 import butterknife.BindView;
@@ -69,6 +71,8 @@ public class MainActivity extends BaseMVPActivity<MainPresenter> implements Main
     private View headView;
     private TextView username;
     private TextView userInfo;
+
+    private TextView mScore;
 
 
     private HomeFragment homeFragment;
@@ -131,6 +135,12 @@ public class MainActivity extends BaseMVPActivity<MainPresenter> implements Main
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
         });
 
+
+        mScore = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
+                findItem(R.id.point));
+        mScore.setGravity(Gravity.CENTER_VERTICAL);
+        mScore.setTextSize(12);
+        mScore.setTextColor(ContextCompat.getColor(this, R.color.text_color));
 
         bottomNavigationView.setSmallTextSize(12);
         bottomNavigationView.setLargeTextSize(12);
@@ -253,6 +263,7 @@ public class MainActivity extends BaseMVPActivity<MainPresenter> implements Main
     @Override
     public void showUserInfo(HttpResult<UserInfoBody> result) {
         UserInfoBody bean = result.data;
+        mScore.setText(String.valueOf(bean.getCoinCount()));
         String level = (bean.getCoinCount() / 100 + 1) + "";
         String msg = String.format(getString(R.string.level_and_rank), level, bean.getRank() + "");
         userInfo.setText(msg);

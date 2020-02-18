@@ -50,7 +50,8 @@ public class App extends Application {
     private void initBugly() {
         // 这里实现SDK初始化，appId替换成你的在Bugly平台申请的appId
         // 调试时，将第三个参数改为true
-        Bugly.init(this, Constants.BUGLY_ID, true);
+//        Bugly.init(this, Constants.BUGLY_ID, BuildConfig.DEBUG);
+        Bugly.init(this, Constants.BUGLY_ID, false);
     }
 
 }

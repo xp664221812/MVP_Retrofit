@@ -1,7 +1,9 @@
 package com.xp.mvp_retrofit.ui.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 
 import com.blankj.utilcode.util.SPUtils;
@@ -15,6 +17,7 @@ import com.xp.mvp_retrofit.mvp.contract.LoginContract;
 import com.xp.mvp_retrofit.mvp.presenter.LoginPresenter;
 import com.xp.mvp_retrofit.storage.beans.HttpResult;
 import com.xp.mvp_retrofit.storage.beans.LoginData;
+import com.xp.mvp_retrofit.utils.DialogUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -35,6 +38,8 @@ public class LoginActivity extends BaseMVPActivity<LoginPresenter> implements Lo
 //    Button register;
 
 
+    private ProgressDialog mDialog;
+
     @Override
     protected LoginPresenter createPresenter() {
         return new LoginPresenter();
@@ -42,6 +47,8 @@ public class LoginActivity extends BaseMVPActivity<LoginPresenter> implements Lo
 
     @Override
     protected void initData(@Nullable Bundle savedInstanceState) {
+//        showLoading();
+        mDialog = DialogUtil.getWaittingDialog(this, "正在登陆");
     }
 
     @Override
@@ -56,6 +63,7 @@ public class LoginActivity extends BaseMVPActivity<LoginPresenter> implements Lo
 
     @OnClick(R2.id.bt_login)
     public void login(View view) {
+        showLoading();
         String username = mUsername.getText().toString();
         String password = mPassword.getText().toString();
         mPresenter.login(username, password);
@@ -63,12 +71,12 @@ public class LoginActivity extends BaseMVPActivity<LoginPresenter> implements Lo
 
     @Override
     public void showLoading() {
-
+        mDialog.show();
     }
 
     @Override
     public void hideLoading() {
-
+        mDialog.hide();
     }
 
     @Override

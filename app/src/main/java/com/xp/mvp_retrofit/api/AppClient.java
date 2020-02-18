@@ -3,6 +3,7 @@ package com.xp.mvp_retrofit.api;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.xp.mvp_retrofit.http.MyCookieJarImpl;
+import com.xp.mvp_retrofit.http.interceptor.CacheInterceptor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ public class AppClient {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         mOkHttpClient = builder
                 .cookieJar(new MyCookieJarImpl())
+//                .addInterceptor(new CacheInterceptor())
                 .addInterceptor(interceptor)
                 .callTimeout(10, TimeUnit.SECONDS)
                 .build();
@@ -44,25 +46,6 @@ public class AppClient {
         }
         return mRetrofit;
     }
-
-//    private static List<Cookie> list = new ArrayList<>();
-//
-//    private static CookieJar cookieJar = new CookieJar() {
-//        @Override
-//        public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
-//            list.clear();
-//
-//            list.addAll(cookies);
-////            url.toString();
-//
-//        }
-//
-//        @Override
-//        public List<Cookie> loadForRequest(HttpUrl url) {
-//
-//            return list;
-//        }
-//    };
 
 
 }

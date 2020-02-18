@@ -29,10 +29,10 @@ public class MyCookieJarImpl implements CookieJar {
 
     @Override
     public List<Cookie> loadForRequest(HttpUrl url) {
-        if (TextUtils.equals(url.toString(), "https://www.wanandroid.com/user/login")) {
-            ToastUtils.showShort("true");
-            return null;
-        }
+//        if (TextUtils.equals(url.toString(), "https://www.wanandroid.com/user/login")) {
+//            ToastUtils.showShort("true");
+//            return null;
+//        }
         //从本地拿取需要的cookie
         return cookieStore.get(url);
     }

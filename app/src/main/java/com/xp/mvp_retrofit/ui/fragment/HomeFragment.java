@@ -56,20 +56,21 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
     private int currentPage = 1;
 //    int totalPage;
 
+
     @Override
-    protected void initData(Bundle savedInstanceState) {
+    protected void initView() {
         refreshLayout.setOnRefreshListener(refreshListener);
 
 
         if (mAdapter == null) {
             mAdapter = new HomeAdapter(R.layout.item_home_list, mDataSource);
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
             mRecyclerView.setLayoutManager(linearLayoutManager);
-            DividerItemDecoration divider = new DividerItemDecoration(activity, DividerItemDecoration.VERTICAL);
-            divider.setDrawable(activity.getDrawable(R.color.gray));
+            DividerItemDecoration divider = new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL);
+            divider.setDrawable(mContext.getDrawable(R.color.gray));
             mRecyclerView.addItemDecoration(divider);
 
-            View header = View.inflate(activity, R.layout.item_home_banner, null);
+            View header = View.inflate(mContext, R.layout.item_home_banner, null);
             banner = header.findViewById(R.id.banner);
             mAdapter.addHeaderView(header);
             mAdapter.setOnLoadMoreListener(loadMoreListener, mRecyclerView);
@@ -79,17 +80,17 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
             mRecyclerView.setAdapter(mAdapter);
         }
 
-        mPresenter.requestHomeData();
-
-        showLoading();
-
-//        throw new RuntimeException("test!!!!!!!!");
     }
-
 
     @Override
     protected int getLayoutResId() {
         return R.layout.fragment_refresh_layout;
+    }
+
+    @Override
+    protected void lazyLoad() {
+        showLoading();
+        mPresenter.requestHomeData();
     }
 
     @Override
@@ -182,7 +183,7 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
     private BaseQuickAdapter.OnItemClickListener onItemClickListener = new BaseQuickAdapter.OnItemClickListener() {
         @Override
         public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-            Intent intent = new Intent(activity, ContentActivity.class);
+            Intent intent = new Intent(mContext, ContentActivity.class);
             Article article = mAdapter.getItem(position);
             intent.putExtra("link", article.getLink());
             startActivity(intent);
