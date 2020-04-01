@@ -13,13 +13,13 @@ import io.reactivex.Observable;
 
 public interface HomeContract {
 
-    interface View extends IView {
+    interface View extends CommonContract.View {
         void showBanner(List<Banner> list);
 
         void showArticles(ArticleResponseBody responseBody);
     }
 
-    interface Presenter {
+    interface Presenter extends CommonContract.Presenter<View> {
         void requestHomeData();
 
         void requestBanner();
@@ -28,7 +28,7 @@ public interface HomeContract {
 
     }
 
-    interface Model extends IModel {
+    interface Model extends CommonContract.Model {
         Observable<HttpResult<List<Banner>>> requestBanner();
 
         Observable<HttpResult<List<Article>>> requestTopArticles();
@@ -38,9 +38,6 @@ public interface HomeContract {
 
     }
 
-    interface IComicCallBack {
-        void ok(HttpResult<List<Banner>> result);
-    }
 
 }
 

@@ -1,5 +1,6 @@
 ext {
     android = [
+            applicationId    : "com.xp.mvp_retrofit",
             compileSdkVersion: 28,
             buildToolsVersion: "28.0.3",
             minSdkVersion    : 23,
@@ -7,6 +8,10 @@ ext {
             targetSdkVersion : 28,
             versionCode      : 1,
             versionName      : "0.0.1"
+    ]
+
+    testRepos = [
+            "leakcanary": "com.squareup.leakcanary:leakcanary-android:2.2"
     ]
 
     supportRepos = [

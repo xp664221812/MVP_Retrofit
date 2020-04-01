@@ -10,17 +10,18 @@ import com.xp.mvp_retrofit.widget.DefaultObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class LoginPresenter extends BasePresenter<LoginContract.View> implements LoginContract.Presenter {
-    LoginModel model;
+public class LoginPresenter extends BasePresenter<LoginContract.Model,LoginContract.View> implements LoginContract.Presenter {
 
 
-    public LoginPresenter() {
-        model = new LoginModel();
+
+    @Override
+    public LoginContract.Model createModel() {
+        return new LoginModel();
     }
 
     @Override
     public void login(String username, String password) {
-        model.login(username, password)
+        mModel.login(username, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(new DefaultObserver<HttpResult<LoginData>>(rootView) {
             @Override

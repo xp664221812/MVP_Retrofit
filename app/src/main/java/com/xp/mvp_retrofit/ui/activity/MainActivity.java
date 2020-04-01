@@ -1,5 +1,6 @@
 package com.xp.mvp_retrofit.ui.activity;
 
+import android.app.ActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -10,9 +11,11 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.constant.PermissionConstants;
 import com.blankj.utilcode.util.FragmentUtils;
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.SizeUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.google.android.material.navigation.NavigationView;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.xp.mvp_retrofit.R;
@@ -47,6 +50,12 @@ public class MainActivity extends BaseMVPActivity<MainPresenter> implements Main
 
     public static final String BOTTOM_INDEX = "bottom_index";
 
+    private static final String HOME_TAG = "home";
+    private static final String SQUARE_TAG = "square";
+    private static final String WECHAT_TAG = "wechat";
+    private static final String SYSTEM_TAG = "system";
+    private static final String PROJECT_TAG = "project";
+
 
     private final static int FRAGMENT_HOME = 0x01;
     private final int FRAGMENT_SQUARE = 0x02;
@@ -69,6 +78,7 @@ public class MainActivity extends BaseMVPActivity<MainPresenter> implements Main
 
 
     private View headView;
+
     private TextView username;
     private TextView userInfo;
 
@@ -80,30 +90,15 @@ public class MainActivity extends BaseMVPActivity<MainPresenter> implements Main
 
     ActionBarDrawerToggle toggle;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//
+//
+//
+//
+//    }
 
-        EventBus.getDefault().register(this);
-
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-
-
-        toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.global_action_open, R.string.global_action_close);
-        toggle.syncState();
-
-
-        drawerLayout.addDrawerListener(toggle);
-        navigationView.setNavigationItemSelectedListener(menuItem -> {
-            drawerLayout.closeDrawer(GravityCompat.START);
-            return true;
-        });
-
-
-    }
 
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
@@ -118,14 +113,64 @@ public class MainActivity extends BaseMVPActivity<MainPresenter> implements Main
 
     @Override
     protected void initData(@androidx.annotation.Nullable Bundle savedInstanceState) {
-
+        EventBus.getDefault().register(this);
 
         requestPermission();
-
 
         if (savedInstanceState != null) {
             currentIndex = savedInstanceState.getInt(BOTTOM_INDEX);
         }
+
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.global_action_open, R.string.global_action_close);
+        toggle.syncState();
+        drawerLayout.addDrawerListener(toggle);
+
+        initNavigationView();
+
+
+        initNavigationBottonView();
+
+
+        switchFragment();
+
+
+//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//        FragmentUtils.hide(getSupportFragmentManager());
+//
+//        switch (currentIndex) {
+//            case FRAGMENT_HOME:
+//                if (homeFragment == null) {
+//                    homeFragment = HomeFragment.newInstance();
+//                    FragmentUtils.add(getSupportFragmentManager(), homeFragment, R.id.container);
+//                } else {
+//                    FragmentUtils.show(homeFragment);
+//                }
+//
+//                break;
+//            default:
+//                break;
+//        }
+
+        if (SPUtils.getInstance().getBoolean(Constants.ISLOGIN)) {
+            username.setText(SPUtils.getInstance().getString(Constants.USERNAME));
+        }
+
+    }
+
+
+    private void initNavigationView() {
+        navigationView.setNavigationItemSelectedListener(menuItem -> {
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return true;
+        });
+
 
         headView = navigationView.getHeaderView(0);
         username = headView.findViewById(R.id.tv_name);
@@ -142,6 +187,11 @@ public class MainActivity extends BaseMVPActivity<MainPresenter> implements Main
         mScore.setTextSize(12);
         mScore.setTextColor(ContextCompat.getColor(this, R.color.text_color));
 
+    }
+
+
+    private void initNavigationBottonView() {
+
         bottomNavigationView.setSmallTextSize(12);
         bottomNavigationView.setLargeTextSize(12);
         bottomNavigationView.setIconSize(22, 22);
@@ -152,30 +202,50 @@ public class MainActivity extends BaseMVPActivity<MainPresenter> implements Main
         bottomNavigationView.enableItemShiftingMode(false);
         bottomNavigationView.enableAnimation(false);
 
+    }
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        FragmentUtils.hide(getSupportFragmentManager());
+
+    private void switchFragment() {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        hideFragment(fragmentTransaction);
 
         switch (currentIndex) {
             case FRAGMENT_HOME:
                 if (homeFragment == null) {
-                    homeFragment = HomeFragment.newInstance();
-                    FragmentUtils.add(getSupportFragmentManager(), homeFragment, R.id.container);
+                    homeFragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag(HOME_TAG);
+                    if (homeFragment == null) {
+                        homeFragment = HomeFragment.newInstance();
+                    } else {
+                        fragmentTransaction.show(homeFragment);
+                        break;
+                    }
+                    fragmentTransaction.add(R.id.container, homeFragment, HOME_TAG);
+//                    transaction.show(homeFragment);
+//                    FragmentUtils.add(getSupportFragmentManager(), homeFragment, R.id.container,false,false);
                 } else {
-                    FragmentUtils.show(homeFragment);
+                    fragmentTransaction.show(homeFragment);
+//                    FragmentUtils.show(homeFragment);
+
                 }
+//                transaction.show(homeFragment);
 
                 break;
             default:
                 break;
         }
 
-        if (SPUtils.getInstance().getBoolean(Constants.ISLOGIN)) {
-            username.setText(SPUtils.getInstance().getString(Constants.USERNAME));
-        }
+        fragmentTransaction.commit();
 
 
     }
+
+
+    private void hideFragment(FragmentTransaction transaction) {
+        if (homeFragment != null) {
+            transaction.hide(homeFragment);
+        }
+    }
+
 
     @Override
     protected void initFromIntent(Intent intent) {
@@ -213,6 +283,11 @@ public class MainActivity extends BaseMVPActivity<MainPresenter> implements Main
 
     @Override
     public void showError(String error) {
+
+    }
+
+    @Override
+    public void showMsg(String msg) {
 
     }
 
@@ -268,4 +343,6 @@ public class MainActivity extends BaseMVPActivity<MainPresenter> implements Main
         String msg = String.format(getString(R.string.level_and_rank), level, bean.getRank() + "");
         userInfo.setText(msg);
     }
+
+
 }

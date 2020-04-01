@@ -134,5 +134,10 @@ public class ContentActivity extends BaseMVPActivity<ContentPresenter> implement
 
     }
 
+    @Override
+    public void showMsg(String msg) {
+
+    }
+
 
 }

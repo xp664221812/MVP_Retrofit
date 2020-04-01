@@ -1,9 +1,7 @@
 package com.xp.mvp_retrofit.adapter;
 
 import android.text.TextUtils;
-import android.text.format.DateUtils;
 
-import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.xp.mvp_retrofit.R;
@@ -47,6 +45,14 @@ public class HomeAdapter extends BaseQuickAdapter<Article, BaseViewHolder> {
 
         String chapterName = article.getSuperChapterName() + " / " + article.getChapterName();
         helper.setText(R.id.chapterName, chapterName);
+
+        if (article.isCollect()) {
+            helper.setImageResource(R.id.collect, R.mipmap.ic_like);
+        } else {
+            helper.setImageResource(R.id.collect, R.mipmap.ic_unlike);
+        }
+
+        helper.addOnClickListener(R.id.collect);
 
     }
 }

@@ -11,12 +11,12 @@ public interface RegisterContract {
         void register(HttpResult result);
     }
 
-    interface Presenter  {
-        void register(String username,String password,String repassword);
+    interface Presenter extends IPresenter<View> {
+        void register(String username, String password, String repassword);
     }
 
     interface Model extends IModel {
-        void register(String username,String password,String repassword,IComicCallBack callBack);
+        void register(String username, String password, String repassword, IComicCallBack callBack);
     }
 
     interface IComicCallBack {

@@ -15,12 +15,12 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class HomePresenter extends BasePresenter<HomeContract.View> implements HomeContract.Presenter {
-    HomeModel model;
+public class HomePresenter extends CommonPresenter<HomeContract.Model,HomeContract.View> implements HomeContract.Presenter {
 
 
-    public HomePresenter() {
-        model = new HomeModel();
+    @Override
+    public HomeContract.Model createModel() {
+        return new HomeModel();
     }
 
 
@@ -28,7 +28,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
     public void requestHomeData() {
         requestBanner();
 
-        Observable.zip(model.requestTopArticles(), model.requestArticles(0), (result1, result2) -> {
+        Observable.zip(mModel.requestTopArticles(), mModel.requestArticles(0), (result1, result2) -> {
             for (Article article : result1.data) {
                 article.setTop(true);
             }
@@ -77,7 +77,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
     @Override
     public void requestBanner() {
 
-        model.requestBanner().subscribeOn(Schedulers.io())
+        mModel.requestBanner().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DefaultObserver<HttpResult<List<Banner>>>(rootView) {
                     @Override
@@ -117,7 +117,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
 
     @Override
     public void requestArticles(int num) {
-        model.requestArticles(num).subscribeOn(Schedulers.io())
+        mModel.requestArticles(num).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DefaultObserver<HttpResult<ArticleResponseBody>>(rootView) {
                     @Override
@@ -150,4 +150,6 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
 //            }
 //        });
     }
+
+
 }

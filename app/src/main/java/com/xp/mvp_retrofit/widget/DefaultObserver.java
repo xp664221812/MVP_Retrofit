@@ -4,16 +4,18 @@ import android.net.ParseException;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.google.gson.JsonParseException;
 import com.xp.mvp_retrofit.App;
 import com.xp.mvp_retrofit.R;
 import com.xp.mvp_retrofit.base.IView;
+import com.xp.mvp_retrofit.constant.Constants;
 import com.xp.mvp_retrofit.storage.beans.BaseBean;
 
 import org.json.JSONException;
 
-import java.io.InterruptedIOException;
 import java.net.ConnectException;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 
 import io.reactivex.Observer;
@@ -47,30 +49,39 @@ public abstract class DefaultObserver<T extends BaseBean> implements Observer<T>
         if (t.errorCode == 0) {
             onSuccess(t);
         } else {
-
-            view.showToast(t.errorMsg);
+            if (t.errorCode == -1001) {
+                //需要重新登录
+                view.showToast("检测到您未登录，请登录之后再操作");
+                SPUtils.getInstance().put(Constants.ISLOGIN, false);
+//                SPUtils.getInstance().put(Constants.TOKEN, "");
+            } else {
+                view.showToast(t.errorMsg);
+            }
         }
 
     }
 
     @Override
     public void onError(Throwable e) {
-        if (e instanceof HttpException) {     //   HTTP错误
-
-        } else if (e instanceof ConnectException
-                || e instanceof UnknownHostException) {   //   连接错误
-
-        } else if (e instanceof InterruptedIOException) {   //  连接超时
+        String errorMsg = "未知错误，可能代码写的不好！！";
+        if (e instanceof HttpException
+                || e instanceof SocketException
+                || e instanceof ConnectException
+                || e instanceof UnknownHostException) {     //   HTTP错误
+            errorMsg = "网络异常，请稍等";
 
         } else if (e instanceof JsonParseException
                 || e instanceof JSONException
                 || e instanceof ParseException) {   //  解析错误
 
-        } else {
-
+            errorMsg = "数据解析异常！！";
+        } else if (e instanceof IllegalArgumentException) {
+            errorMsg = "参数错误！！";
         }
 //        view.showToast(e.getMessage());
+
         view.hideLoading();
+        view.showError(errorMsg);
 
 //        LogUtils.d(e.getMessage());
         LogUtils.d("onComplete----------------");
@@ -79,8 +90,6 @@ public abstract class DefaultObserver<T extends BaseBean> implements Observer<T>
     @Override
     public void onComplete() {
         view.hideLoading();
-        LogUtils.d("onError----------------");
-//        view = null;
     }
 
     public abstract void onSuccess(T t);

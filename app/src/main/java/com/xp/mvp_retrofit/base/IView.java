@@ -13,6 +13,12 @@ public interface IView {
     //显示错误信息
     void showError(String error);
 
+
+    /**
+     * 显示信息
+     */
+    void showMsg(String msg);
+
 //    void handleError(Exception e);
 
     default void showToast(String toast) {

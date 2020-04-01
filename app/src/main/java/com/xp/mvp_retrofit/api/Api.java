@@ -45,7 +45,26 @@ public interface Api {
     Observable<HttpResult<LoginData>> login(@Field("username") String username, @Field("password") String password);
 
 
-
     @GET("/lg/coin/userinfo/json")
     Observable<HttpResult<UserInfoBody>> getUserInfo();
+
+    /**
+     * 收藏站内文章
+     * 方法：POST
+     * 参数： 文章id，拼接在链接中。
+     * 注意链接中的数字，为需要收藏的id.
+     */
+    @POST("/lg/collect/{id}/json")
+    Observable<HttpResult<Object>> addCollectArticle(@Path("id") int id);
+
+
+    /**
+     * 文章列表取消收藏
+     * 方法：POST
+     * 参数： 文章id，拼接在链接中。
+     * 注意链接中的数字，为需要收藏的id.
+     */
+    @POST("/lg/uncollect_originId/{id}/json")
+    Observable<HttpResult<Object>> cancelCollectArticle(@Path("id") int id);
+
 }

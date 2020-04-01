@@ -8,13 +8,13 @@ apply from: 'tinker-support.gradle'
 
 
 android {
+    //ext是可以省略的，只是想说明是扩展属性
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     buildToolsVersion rootProject.ext.android.buildToolsVersion
     defaultConfig {
-        applicationId "com.xp.mvp_retrofit"
+        applicationId rootProject.ext.android.applicationId
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
-        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
@@ -79,6 +79,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    debugImplementation rootProject.ext.testRepos["leakcanary"]
+
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
@@ -141,3 +144,5 @@ dependencies {
     }
 
 }
+
+println this.android.compileSdkVersion

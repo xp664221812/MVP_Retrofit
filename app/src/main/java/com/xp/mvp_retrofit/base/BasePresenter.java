@@ -1,12 +1,16 @@
 package com.xp.mvp_retrofit.base;
 
-public abstract class BasePresenter<V extends IView> implements IPresenter<V> {
+public abstract class BasePresenter<M extends IModel, V extends IView> implements IPresenter<V> {
 
     protected V rootView;
+
+    protected M mModel;
 
     public BasePresenter() {
         onStart();
     }
+
+    public abstract M createModel();
 
     @Override
     public void onStart() {
@@ -21,6 +25,7 @@ public abstract class BasePresenter<V extends IView> implements IPresenter<V> {
     @Override
     public void attach(V view) {
         rootView = view;
+        mModel = createModel();
     }
 
     @Override

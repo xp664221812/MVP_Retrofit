@@ -12,18 +12,18 @@ import com.xp.mvp_retrofit.widget.DefaultObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class MainPresenter extends BasePresenter<MainContract.View> implements MainContract.Presenter {
-    MainModel model;
+public class MainPresenter extends BasePresenter<MainContract.Model, MainContract.View> implements MainContract.Presenter {
 
 
-    public MainPresenter() {
-        model = new MainModel();
+    @Override
+    public MainContract.Model createModel() {
+        return new MainModel();
     }
 
 
     @Override
     public void getUserInfo() {
-        model.getUserInfo().subscribeOn(Schedulers.io())
+        mModel.getUserInfo().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(new DefaultObserver<HttpResult<UserInfoBody>>(rootView) {
             @Override
             public void onSuccess(HttpResult<UserInfoBody> result) {

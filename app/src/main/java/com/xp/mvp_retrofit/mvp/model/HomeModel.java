@@ -1,10 +1,8 @@
 package com.xp.mvp_retrofit.mvp.model;
 
-import com.blankj.utilcode.util.LogUtils;
 import com.xp.mvp_retrofit.api.Api;
 import com.xp.mvp_retrofit.api.AppClient;
 import com.xp.mvp_retrofit.mvp.contract.HomeContract;
-import com.xp.mvp_retrofit.mvp.contract.MainContract;
 import com.xp.mvp_retrofit.storage.beans.Article;
 import com.xp.mvp_retrofit.storage.beans.ArticleResponseBody;
 import com.xp.mvp_retrofit.storage.beans.Banner;
@@ -13,12 +11,8 @@ import com.xp.mvp_retrofit.storage.beans.HttpResult;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import io.reactivex.internal.operators.observable.ObservableAll;
-import io.reactivex.schedulers.Schedulers;
 
-public class HomeModel implements HomeContract.Model {
+public class HomeModel extends CommonModel implements HomeContract.Model {
 //    @Override
 //    public void requestBanner(HomeContract.IComicCallBack callBack) {
 //        Api api = AppClient.initRetrofit().create(Api.class);

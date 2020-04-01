@@ -17,7 +17,6 @@ public class MyCookieJarImpl implements CookieJar {
     public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
         //本地可校验cookie，并根据需要存储
         if (TextUtils.equals(url.toString(), "https://www.wanandroid.com/user/login")) {
-            ToastUtils.showShort("true");
             if (cookies != null && cookies.size() > 0) {
                 for (Cookie item : cookies) {
                     cookieStore.add(url, item);

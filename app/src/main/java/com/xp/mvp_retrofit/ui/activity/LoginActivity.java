@@ -84,6 +84,11 @@ public class LoginActivity extends BaseMVPActivity<LoginPresenter> implements Lo
 
     }
 
+    @Override
+    public void showMsg(String msg) {
+
+    }
+
 
     @Override
     public void loginSuccess(HttpResult<LoginData> result) {

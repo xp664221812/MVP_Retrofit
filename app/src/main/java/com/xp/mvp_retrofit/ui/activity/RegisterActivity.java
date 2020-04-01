@@ -75,6 +75,11 @@ public class RegisterActivity extends BaseMVPActivity<RegisterPresenter> impleme
 
     }
 
+    @Override
+    public void showMsg(String msg) {
+
+    }
+
 
     @Override
     public void register(HttpResult result) {

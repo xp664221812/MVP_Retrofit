@@ -1,5 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-apply from: "config.gradle"
+//引入config.gradle文件，里面定义了一些扩展属性，子project可以访问的到这些属性
+apply from: file("config.gradle")
 
 buildscript {
     ext.kotlin_version = '1.3.31'
